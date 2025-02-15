@@ -1,7 +1,5 @@
 # Extrator ROFL - League of Legends Replay Converter
 
-![LoL Esports](https://assets.lolesports.com/watch/static/media/lol-logo.ee873fc4.png)
-
 Uma aplicação web moderna para converter arquivos ROFL (replays do League of Legends) em formato JSON, permitindo fácil análise e compartilhamento de dados de partidas.
 
 ## 🚀 Funcionalidades
