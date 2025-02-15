@@ -85,49 +85,19 @@ body {
 }
 
 /* Containers de Anúncios */
-.ad-container-top {
-    max-width: 970px;
+.ad-container-footer {
+    max-width: 468px;
     margin: 0 auto;
-    min-height: 90px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-}
-
-.ad-container-sidebar {
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 160px;
-    min-height: 600px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    display: none; /* Inicialmente oculto em telas menores */
-}
-
-.ad-container-bottom {
-    max-width: 970px;
-    margin: 0 auto;
-    min-height: 90px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-}
-
-/* Mostrar anúncio lateral em telas grandes */
-@media (min-width: 1400px) {
-    .ad-container-sidebar {
-        display: block;
-    }
-    
-    .container {
-        margin-right: 200px; /* Espaço para o anúncio lateral */
-    }
+    min-height: 60px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+    padding: 5px;
 }
 
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
-    .ad-container-top,
-    .ad-container-bottom {
+    .ad-container-footer {
+        max-width: 320px;
         min-height: 50px;
     }
 }
