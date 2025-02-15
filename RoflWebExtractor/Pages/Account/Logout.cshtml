@@ -1,0 +1,18 @@
+@page
+@model RoflWebExtractor.Pages.Account.LogoutModel
+@{
+    ViewData["Title"] = "Sair";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Saindo...</h1>
+    <p>Você será redirecionado em alguns segundos.</p>
+</div>
+
+@section Scripts {
+    <script>
+        setTimeout(function() {
+            window.location.href = '/';
+        }, 2000);
+    </script>
+} 

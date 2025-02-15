@@ -1,0 +1,114 @@
+@page
+@model RoflWebExtractor.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Painel de Administração";
+}
+
+<div class="container mt-4">
+    <h2 class="text-white mb-4">Painel de Administração</h2>
+
+    <!-- Seção de Usuários -->
+    <div class="card bg-dark text-white mb-4">
+        <div class="card-header">
+            <h3 class="mb-0">Usuários Registrados</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Admin</th>
+                            <th>Data de Criação</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.Email</td>
+                                <td>@(user.IsAdmin ? "Sim" : "Não")</td>
+                                <td>@user.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        <input type="hidden" name="userId" value="@user.Id" />
+                                        <button type="submit" class="btn btn-sm @(user.IsAdmin ? "btn-danger" : "btn-success")"
+                                                asp-page-handler="@(user.IsAdmin ? "RemoveAdmin" : "MakeAdmin")">
+                                            @(user.IsAdmin ? "Remover Admin" : "Tornar Admin")
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Arquivos Convertidos -->
+    <div class="card bg-dark text-white">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Arquivos Convertidos</h3>
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+                    Ordenar por
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="?orderBy=date">Data</a></li>
+                    <li><a class="dropdown-item" href="?orderBy=size">Tamanho</a></li>
+                    <li><a class="dropdown-item" href="?orderBy=user">Usuário</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Arquivo Original</th>
+                            <th>Arquivo JSON</th>
+                            <th>Tamanho</th>
+                            <th>Usuário</th>
+                            <th>IP</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var file in Model.ConvertedFiles)
+                        {
+                            <tr>
+                                <td>@file.Id</td>
+                                <td>@file.OriginalFileName</td>
+                                <td>@file.JsonFileName</td>
+                                <td>@(file.FileSize / 1024) KB</td>
+                                <td>@(file.UserEmail ?? "Anônimo")</td>
+                                <td>@file.IpAddress</td>
+                                <td>@file.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="/Admin/Download/@file.Id" class="btn btn-sm btn-primary">
+                                            <i class="bi bi-download"></i> JSON
+                                        </a>
+                                        <form method="post" class="d-inline">
+                                            <input type="hidden" name="fileId" value="@file.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger" asp-page-handler="DeleteFile"
+                                                    onclick="return confirm('Tem certeza que deseja excluir este arquivo?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,22 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Fraxiinus.Rofl.Extract.Data;
 using Fraxiinus.Rofl.Extract.Data.Models;
 using System.Text.Json;
+using RoflWebExtractor.Data;
+using RoflWebExtractor.Models;
 
 namespace RoflWebExtractor.Pages;
 
+[Authorize]
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly IWebHostEnvironment _environment;
+    private readonly AppDbContext _context;
 
     public string? ErrorMessage { get; set; }
 
-    public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment environment)
+    public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment environment, AppDbContext context)
     {
         _logger = logger;
         _environment = environment;
+        _context = context;
     }
 
     public void OnGet()
@@ -86,6 +92,20 @@ public class IndexModel : PageModel
             var jsonFileName = $"{Path.GetFileNameWithoutExtension(file.FileName)}_{timestamp}.json";
             var jsonFilePath = Path.Combine(jsonPath, jsonFileName);
             await System.IO.File.WriteAllTextAsync(jsonFilePath, jsonContent);
+
+            // Salvar no banco de dados
+            var convertedFile = new ConvertedFile
+            {
+                OriginalFileName = file.FileName,
+                JsonFileName = jsonFileName,
+                JsonContent = jsonContent,
+                FileSize = file.Length,
+                UserEmail = User.Identity?.Name,
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+            };
+
+            _context.ConvertedFiles.Add(convertedFile);
+            await _context.SaveChangesAsync();
 
             // Criar arquivo de log com informações extras
             var logPath = Path.Combine(_environment.ContentRootPath, "Uploads", "Logs");
