@@ -91,7 +91,12 @@ public class Program
     {
         try
         {
-            var rofl = await RoflReader.LoadAsync(replayPath, false);
+            var options = new ReplayReaderOptions
+            {
+                LoadPayload = false,
+                Verbose = false
+            };
+            var rofl = await RoflReader.LoadAsync(replayPath, options);
             return rofl.PayloadHeader!.GameId.ToString();
         }
         catch (Exception)
@@ -110,7 +115,6 @@ public class Program
         }
         catch (Exception)
         {
-
             return "FAILURE";
         }
     }
@@ -132,7 +136,6 @@ public class Program
         }
         catch (Exception)
         {
-
             return "FAILURE";
         }
     }
