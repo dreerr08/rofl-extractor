@@ -7,12 +7,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Fraxiinus.Rofl.Extract.Data;
 
 namespace Fraxiinus.Rofl.Extract.Data.BenchmarkApp;
 
 public class Program
 {
-    public static async Task Main()
+    public static async Task Main(string[] args)
     {
         Console.WriteLine("roflxd.cs Benchmarking Application");
         Console.Write("Enter target folder:");
