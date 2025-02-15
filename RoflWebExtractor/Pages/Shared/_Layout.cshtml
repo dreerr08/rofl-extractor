@@ -7,57 +7,60 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2351748174167881"
+     crossorigin="anonymous"></script>
 </head>
 <body class="bg-dark text-white">
+    <!-- Anúncio Superior -->
+    <div class="ad-container-top text-center my-3">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-2351748174167881"
+             data-ad-slot="ID-DO-SLOT"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
     <div class="hero-section">
         <div class="container">
-            <!-- Anúncio Superior -->
-            <div class="ad-container-top text-center my-3">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-2351748174167881"
-                     data-ad-slot="1234567890"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
+        </div>
+    </div>
 
-            <!-- Anúncio Lateral -->
-            <div class="ad-container-sidebar">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-2351748174167881"
-                     data-ad-slot="0987654321"
-                     data-ad-format="vertical"
-                     data-full-width-responsive="false"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+    <!-- Anúncio Lateral -->
+    <div class="ad-container-sidebar">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-2351748174167881"
+             data-ad-slot="ID-DO-SLOT-LATERAL"
+             data-ad-format="vertical"
+             data-full-width-responsive="false"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 
+    <footer class="footer text-muted">
+        <div class="container text-center">
             <!-- Anúncio Inferior -->
             <div class="ad-container-bottom my-3">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-2351748174167881"
-                     data-ad-slot="1357924680"
+                     data-ad-slot="ID-DO-SLOT-INFERIOR"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
-        </div>
-    </div>
-
-    <footer class="footer text-muted">
-        <div class="container text-center">
             <span class="text-white-50">&copy; 2024 - Extrator ROFL</span>
         </div>
     </footer>
