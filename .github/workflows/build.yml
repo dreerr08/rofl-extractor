@@ -1,26 +1,35 @@
-name: master
+name: Build and Test
 
 on:
   push:
-    branches: 
-      - master
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build:
-    runs-on: [windows-latest]
+    runs-on: ubuntu-latest
+    
     steps:
-    - name: Checkout files
-      uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       
-    - name: Setup .NET Core Latest
-      uses: actions/setup-dotnet@v1
-      with:
-        source-url: https://api.nuget.org/v3/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_KEY }}
-
-    - name: Build and pack
-      run: dotnet pack Rofl.Extract.Data/Rofl.Extract.Data.csproj -c Release -o out
-
-    - name: Push package to NuGet registry
-      run: dotnet nuget push out\*.nupkg --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate --no-symbols
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Restore dependencies
+        run: dotnet restore
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build
+        run: dotnet build --no-restore
+        
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
