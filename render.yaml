@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rofl-extractor
+    env: docker
+    plan: free
+    region: oregon
+    buildCommand: docker build -t rofl-extractor .
+    startCommand: docker run -p $PORT:8080 rofl-extractor
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production 
