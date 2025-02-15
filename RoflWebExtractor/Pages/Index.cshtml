@@ -1,0 +1,165 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Extrator ROFL";
+}
+
+<div class="text-center hero-content">
+    <div class="lol-logo mb-4">
+        <img src="~/images/lol-esports.png" alt="LoL Esports" class="img-fluid" style="max-width: 300px;">
+    </div>
+
+    <h1 class="display-4 mb-4 text-white">Extrator de Replays LoL</h1>
+    <p class="lead mb-5">Converta seus arquivos ROFL em JSON com facilidade</p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="upload-card">
+                <form method="post" enctype="multipart/form-data" class="text-center">
+                    <div class="upload-area mb-4">
+                        <label for="roflFile" class="upload-label">
+                            <div class="upload-icon mb-3">
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16L12 8" stroke="#00A3FF" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M9 11L12 8L15 11" stroke="#00A3FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 18H16" stroke="#00A3FF" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="upload-text">Clique para selecionar ou arraste seu arquivo ROFL</span>
+                            <input type="file" class="form-control d-none" id="roflFile" name="roflFile" accept=".rofl" required>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg px-5">Extrair JSON</button>
+                </form>
+
+                @if (Model.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger mt-4" role="alert">
+                        @Model.ErrorMessage
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hero-content {
+        padding: 4rem 0;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, #13151a 0%, #1a1c23 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .lead {
+        color: #8b8fa3;
+        font-size: 1.2rem;
+    }
+
+    .upload-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .upload-area {
+        border: 2px dashed #2d3748;
+        border-radius: 12px;
+        padding: 2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .upload-area:hover {
+        border-color: #00A3FF;
+        background: rgba(0, 163, 255, 0.05);
+    }
+
+    .upload-label {
+        cursor: pointer;
+        width: 100%;
+        margin: 0;
+    }
+
+    .upload-text {
+        color: #8b8fa3;
+        display: block;
+        margin-top: 1rem;
+    }
+
+    .btn-primary {
+        background: #00A3FF;
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: #0087d4;
+        transform: translateY(-2px);
+    }
+
+    .display-4 {
+        font-weight: 700;
+        font-size: 2.5rem;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        const dropArea = document.querySelector('.upload-area');
+        const fileInput = document.querySelector('#roflFile');
+        const uploadText = document.querySelector('.upload-text');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropArea.classList.add('border-primary');
+        }
+
+        function unhighlight(e) {
+            dropArea.classList.remove('border-primary');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            updateFileName(files[0]);
+        }
+
+        fileInput.addEventListener('change', function(e) {
+            if (this.files.length > 0) {
+                updateFileName(this.files[0]);
+            }
+        });
+
+        function updateFileName(file) {
+            uploadText.textContent = `Arquivo selecionado: ${file.name}`;
+        }
+    </script>
+}
