@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+**/out/
+**/.vs/
+**/.vscode/
+**/Uploads/
+**/*.user
+.git
+.gitignore
+README.md
+render.yaml 
